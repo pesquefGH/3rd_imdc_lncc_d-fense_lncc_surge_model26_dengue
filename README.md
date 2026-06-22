@@ -111,14 +111,21 @@ typ_DC=mean(DCalign')'; % typical surge waveform in 52 EWs:
 % Surge Model Estimation (from typ_DC)
 
 % Initial parameters of the logistic model
+
 L=120000;  k=0.3; n0=26;  % time-shift
+
 P=[L,k,n0];  % initial parameter vector
+
 n=0:length(typ_DC)-1; n=n(:);  % time basis
 
 % Surge Model Estimation (nonlinear) 
+
 options = optimoptions('lsqcurvefit','Algorithm','trust-region-reflective');
+
 fun = @(P,n) (P(1).*P(2).*exp(P(2).*(n-(P(3)))))./(1+exp(P(2).*(n-(P(3)))).^2); % surge model
+
 P_est = lsqcurvefit(fun,P,n,typ_DC,[500;0.1;24],[370000;0.5;28],options); % find estimated model parameters P_est
+
 P_est(3)=round(P_est(3)); % rounds estimated n0, since it is supposed to be an integer 
 
 Model_surge=fun(P_est,n);  % Synthesizes a modeled incidence curve from estimated model 
@@ -128,15 +135,21 @@ Model_surge=fun(P_est,n);  % Synthesizes a modeled incidence curve from estimate
 ns=size(DCalign,2); % number of observed surges (number of columns of DCalign)
 
 g=zeros(ns,1);  % initializes with zeros vector to store the set of gains
+
 x=Model_surge;   % surge template: attributes Model_surge to x (for notation clarity)  
+
 for kk=1:ns
+
     a=DCalign(:,kk);   % observed surge at column kk
+    
     g(kk)=a'*x./(x'*x);   % calculates amplitude gain for each observed surge at column kk
+    
 end
 
 [param]=lognfit(g);  % estimates log nomal distribution from g
 
 mg=param(1);  % mean of value of g (from 2010 to 2022)
+
 sigma=param(2); % standard deviation of value of g (from 2010 to 2022)
 
 MC=10000;  % number of montecarlo runs for forecast surges in 2023
@@ -148,6 +161,7 @@ for kk=1:MC
 end
 
 set_prctile=[2.5 5 10 25 50 75 90 95 97.5]; % 2.5 to 97.5% percentiles
+
 PP=prctile(forecast_cases_v1',set_prctile); % calculates the percentiles and stores in PP
 
 
