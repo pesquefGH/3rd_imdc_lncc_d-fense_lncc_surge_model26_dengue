@@ -88,9 +88,12 @@ CODE (example for validation 1) :
 dcases=dcases(1:ind_EW25_2022);  % crops time-series at EW 25 of 2022 (including)
 
 % lowpass filtering
+
 L=26; % window length for the SSA filter
+
 nsv=6; % number of selected eigenvalues (ordered)
-[dcasesf]=ssa_modPE(dcases,L,nsv); % filtered time series 
+
+[dcasesf]=ssa_modPE(dcases,L,nsv); % lowpass filtered time series 
 
 dcasesfs=dcasesf(41:ind_EW25_2022);  % selects filtered data from EW 41/2010 to EW 25/2022
 
