@@ -54,27 +54,41 @@ Main
 3. Libraries and Dependencies
 
 Proprietary functions of Matlab toolboxes:
+
 table.m  % matlab function for managing table creation
+
 readtable.m % matlab function for reading a CSV file 
+
 writetable.m % matlab function for creating a CSV file from a table
+
 buffer.m  % matlab function for data organization into columns (block segmentation)
+
 circshift.m % matlab function used to align the incidence curves by their maxima, via circular shifts. 
+
 lsqcurvefit.m % matlab function for curve fitting: finds parameters of an incidence model to an average incidence curve obtained from the smoothed time-series of dengue cases.  
+
 lognfit.m  % matlab function used to estimate the parameters of a log normal distribution from a set of data
+
 lognrnd.m % matlab function used to generate values from a log normal distribution
+
 prctile.m % matlab function for calculating the percentiles of a set of numbers
 
 Extra functions:
+
 ssa_modPE.m  % Singular Spectrum Analysis method used for lowpass filtering the data (included in folder matlab)
+
 alignDC.m  % function that aligns the smoothed incidence (surge) curves (52 epiweeks) so that their maxima are aligned to the middle of the window (sample 26).
  
 
 4. Data and Variables
+
 For each state, the input time series aggregates the sum of all dengue cases, over a epiweek.
+
 Data is organized in 27 CSV files, one per state, stored in folder 'Aggregated Data'.
+
 Only the time series of dengue cases has been used. No climate data has been used.
   
-5. Model Training
+6. Model Training
 
 Data processing: an average incidence curve is obtained by first lowpass filtering the time series of dengue cases via the Singular Spectrum Analysis method. Then, respecting the cutoff date for each validation (1 to 4), the time series is organized in blocks that span from epiweek (EW) 41 of a given year to EW 40 of the subsequent year, a total of 52 EWs. Then, the set of incidence curves are aligned in time so that the maxima of each curve gets centered at sample 26 (middle of the block). This is carried out by ancilary function alignDC.m. Finally, the arithmetic mean of the aligned incidence curves is calculated to produce a typical incidence curve (data driven). 
 
