@@ -149,7 +149,8 @@ upper_95 = PP(9,:)'; % 97.5% percentile
 indf_ini=665+52+52; % time index of the EW 41 2024
 indf_end=716+52+52; % time index of the EW 40 2025
 
-date=S_dates(indf_ini:indf_end);  % epidemic weeks to be forecast 
+date=S_dates(771:822);  % Sunday days for validation 3
+
 
 cases=dcases_orig(indf_ini:indf_end);  % known cases 
 
